@@ -27,6 +27,15 @@ y_train = train_df['Survived']
 
 test_df = pd.read_csv('test.csv')
 test_df['Sex'].replace({'female': 1, 'male': 0},inplace = True)
+
+columns_to_delete = ['PassengerId','Survived','Name','Ticket']
+categorical_columns = ['Sex','Fare','Cabin','Embarked']
+target = train_df['Survived']
+train_df = train_df.drop(columns=columns_to_delete, axis=1)
+
+# create features for unique records, ex. Sex - split for male and female
+train_df = pd.get_dummies(train_df, columns=categorical_columns)
+
 test_df['Age'].fillna(value = test_df['Age'].mean(), inplace = True)
 
 X_test = test_df[['Sex','Pclass','Age']]
